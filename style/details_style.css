@@ -1,0 +1,76 @@
+
+    body {
+      font-size: 20px;
+      font-family: Georgia, "Times New Roman", Times, serif;
+      background: #EEAECA;
+      background: linear-gradient(231deg, rgba(238, 174, 202, 1) 0%, rgba(233, 227, 148, 1) 78%);
+      color: #303030;
+
+    }
+
+    .loading {
+      text-align: center;
+      font-size: 24px;
+      color: #666;
+      padding: 50px;
+    }
+
+    .details-page {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 7px 7px 30px 1px rgba(0, 0, 0, 0.41);
+    }
+
+    .details-page img {
+      width: 100%;
+      max-width: 500px;
+      border-radius: 12px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .details-page h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .details-page .info-section {
+      margin-bottom: 20px;
+    }
+    
+    .details-page .info-section p {
+      line-height: 1.5;
+    }
+
+    .details-page .ingredients {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .details-page .ingredient-item {
+      background-color: rgba(250, 208, 208, 0.3);
+      padding: 10px;
+      border-radius: 7px;
+      font-size: 14px;
+    }
+
+    .back-button {
+      background: rgb(250, 208, 208);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .back-button:hover {
+        background-color: lightgray;
+        transition: 0.2s ease-in;
+    }
