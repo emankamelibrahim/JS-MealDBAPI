@@ -60,12 +60,17 @@ function startSlider (meals) {
 function GetMeals () {
   showLoading()
 
-  fetch('https://www.themealdb.com/api/json/v1/1/filter.php?c=Seafood')
-    .then(function (response) {
-      return response.json()
-    })
-    .then(function (data) {
-      hideLoading()
+  const xhr = new XMLHttpRequest()
+  xhr.open(
+    'GET',
+    'https://www.themealdb.com/api/json/v1/1/filter.php?c=Seafood'
+  )
+
+  xhr.onload = function () {
+    hideLoading()
+
+    if (xhr.status >= 200 && xhr.status < 300) {
+      const data = JSON.parse(xhr.responseText)
 
       if (!data.meals || data.meals.length === 0) {
         document.getElementById('mealList').innerHTML =
@@ -76,13 +81,20 @@ function GetMeals () {
       mealsData = data.meals.slice(0, 4)
       startSlider(mealsData)
       displayMeals(mealsData)
-    })
-    .catch(function (error) {
-      hideLoading()
-      console.error('Error:', error)
+    } else {
       document.getElementById('mealList').innerHTML =
         "<div class='error'>error loading meals.</div>"
-    })
+    }
+  }
+
+  xhr.onerror = function () {
+    hideLoading()
+    console.error('error loading meals')
+    document.getElementById('mealList').innerHTML =
+      "<div class='error'>error loading meals.</div>"
+  }
+
+  xhr.send()
 }
 
 function displayMeals (meals) {

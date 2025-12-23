@@ -36,12 +36,17 @@ function getMealDetails () {
 
   showLoading()
 
-  fetch('https://www.themealdb.com/api/json/v1/1/lookup.php?i=' + mealId)
-    .then(function (response) {
-      return response.json()
-    })
-    .then(function (data) {
-      hideLoading()
+  const xhr = new XMLHttpRequest()
+  xhr.open(
+    'GET',
+    'https://www.themealdb.com/api/json/v1/1/lookup.php?i=' + mealId
+  )
+
+  xhr.onload = function () {
+    hideLoading()
+
+    if (xhr.status >= 200 && xhr.status < 300) {
+      const data = JSON.parse(xhr.responseText)
 
       if (!data.meals || data.meals.length === 0) {
         document.getElementById('detailsContainer').innerHTML =
@@ -50,18 +55,26 @@ function getMealDetails () {
       }
 
       displayMealDetails(data.meals[0])
-    })
-    .catch(function (error) {
-      hideLoading()
-      console.error('Error:', error)
+    } else {
       document.getElementById('detailsContainer').innerHTML =
         "<div class='error'>Error loading meal details.</div>"
-    })
+    }
+  }
+
+  xhr.onerror = function () {
+    hideLoading()
+    console.error('Error loading meal details')
+    document.getElementById('detailsContainer').innerHTML =
+      "<div class='error'>Error loading meal details.</div>"
+  }
+
+  xhr.send()
 }
 
 function displayMealDetails (meal) {
   const el = document.getElementById('detailsContainer')
   var ingredients = []
+
   for (var i = 1; i <= 20; i++) {
     var ingredient = meal['strIngredient' + i]
     var measure = meal['strMeasure' + i]
@@ -75,9 +88,8 @@ function displayMealDetails (meal) {
   el.innerHTML =
     '<div class="details-page">' +
       '<button class="back-button" onclick="goBack()">Back</button>' +
-      '<img src="' + meal.strMealThumb +'" alt="' +meal.strMeal +'">' +
+      '<img src="' + meal.strMealThumb + '" alt="' + meal.strMeal + '">' +
       '<h2>' + meal.strMeal + '</h2>' +
-      
       '<div class="info-section">' +
         '<h3>Ingredients</h3>' +
         '<div class="ingredients">' +
@@ -86,7 +98,7 @@ function displayMealDetails (meal) {
       '</div>' +
       '<div class="info-section">' +
         '<h3>Instructions</h3>' +
-        '<p>' + meal.strInstructions +  '</p>' +
+        '<p>' + meal.strInstructions + '</p>' +
       '</div>' +
     '</div>'
 }

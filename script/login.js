@@ -1,13 +1,22 @@
 const form = document.getElementById("authForm");
-const usernameInput = document.querySelector('input[type="text"]');
-const passwordInput = document.querySelector('input[type="password"]');
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
   const username = usernameInput.value.trim();
   const password = passwordInput.value.trim();
   
-  if (!isValidUsername(username) || !isValidPassword(password)) return;
+if (!isValidUsername(username)) {
+  alert('username must be at least 3 characters')
+  return
+}
+
+if (!isValidPassword(password)) {
+  alert('password does not meet the required rules')
+  return
+}
+
 
   const storedUsername = getCookie("username");
   const storedPassword = getCookie("password");
